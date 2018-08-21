@@ -50,11 +50,6 @@ let t20 =
 00000000000010100110
 00000000011000000000`;
 
-function getMatrix() {
-  return document.getElementById("matrix").value;
-}
-
-let x = getMatrix();
 
 class Matrix {
   constructor(columns, rows) {
@@ -236,8 +231,8 @@ function orderedIncMat(incMat, connFactMat, minMaxMat) {
       addSimilarToLeading(min, connFactMat);
     }
   }
-  choseLeading(minMaxMat);
 
+  choseLeading(minMaxMat);
 
   function addSimilarToLeading(min, connFactMat) {
     let maxConnFactCol = false;
@@ -256,7 +251,6 @@ function orderedIncMat(incMat, connFactMat, minMaxMat) {
       groups[currentGroup].push(maxConnFactCol);
       addSimilarToLeading(min, connFactMat);
     } else choseLeading(minMaxMat);
-
 
   }
   return {matrix: incMat.copy(order), groups: groups};
@@ -287,6 +281,8 @@ function round(number, numbersAfterDot) {
 
 function run() {
 
+  reset();
+
   let incMat = matrixFromString(document.getElementById("inputMatrix").value);
   let connFactMat = connectionFactorMatrix(incMat);
   let minMaxMat = max(connFactMat);
@@ -298,5 +294,21 @@ function run() {
   tableFromMatrix(ordMat.matrix, "table_4");
 
   colorGroups(ordMat.matrix, ordMat.groups);
-  location.reload();
+}
+
+
+function reset() {
+  //let tableArr = Array.from(document.getElementsByTagName("table"));
+//  tableArr.forEach(table => {
+  //  console.log(table);
+  //  while(table.firsChild) {
+  //    table.removeChild(table.firsChild);
+  //  }
+//  });
+  let tables = document.getElementsByTagName("table");
+  for (let i = 0; i < tables.length; i++) {
+    while (tables[i].firstChild) {
+      tables[i].removeChild(tables[i].firstChild);
+    }
+  }
 }

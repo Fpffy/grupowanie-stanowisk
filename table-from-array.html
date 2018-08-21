@@ -22,12 +22,33 @@
   </style>
 
   <form>
-    Wprowadź macierz incydencji: <input type="text" id="matrix" size="20">
-    <input type="button" value="Oblicz" onclick="run();">
-  </form>
+    <div>Wprowadź macierz incydencji:</div>
+    <textarea id="inputMatrix" cols="25" rows="20">
+00000001011000011001
+00000111011001000001
+01010010000001100110
+00000101011000011001
+00000101011000011001
+01010010000001000000
+00000000011000011000
+00000100011000011000
+00100010000010000110
+10001000100100000000
+00000101010000000001
+10000000100100000000
+01010010000001000000
+01110010000001100110
+00101010000010100110
+00000000011000010000
+10101000100100000000
+01010010000000000000
+00000000000010100110
+00000000011000000000
+    </textarea>
+    <button type="button" onclick="run();">Oblicz</button>
 
-<textarea id="inputMatrix" cols="40" rows="5">
-</textarea>
+  </form>
+  <button type="button" onclick="reset();">Reset</button>
 
 
   <table id="table_1"></table>
