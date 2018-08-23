@@ -1,0 +1,65 @@
+main {
+  font-size: 18;
+  width: 800px;
+  text-align: justify;
+  margin: 25px auto 25px auto;
+}
+
+table {
+  border: 2px solid black;
+  margin: auto;
+}
+
+th, td {
+  text-align: center;
+  height: 30px;
+  width: 30px;
+  border: 1px solid black;
+}
+
+mi {
+  font-weight: normal;
+}
+
+.mjx-chtml.MathJax_CHTML {
+  display: block;
+  text-align: center;
+}
+
+li {
+  margin-bottom: 5px;
+}
+
+  textarea {
+    font-size: 18;
+    letter-spacing: 3px;
+    text-align: left;
+  }
+
+  h1, h2, h3 {
+    font-family: 'Cinzel', Georgia, serif;
+    text-align: center;
+    margin-top: 25px;
+  }
+
+  .start {
+    display: flex;
+  }
+
+  .instruction {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+  }
+
+  .table_desctription {
+    font-style: italic;
+    font-size: 18;
+    text-align: center;
+    margin-bottom: 2px;
+    margin-top: 35px;
+  }
+
+  .table {
+    display: none;
+  }

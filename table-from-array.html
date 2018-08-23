@@ -1,71 +1,16 @@
 <!doctype: html>
 <html>
-<head><meta charset="utf-8"></head>
+<head>
+<meta charset="utf-8">
+<title>Algorytm współczynika podobieństwa</title>
+<link rel="stylesheet" href="style.css"/>
+</head>
 <body>
-  <style>
-    body {
-      width: 800px;
-      text-align: justify;
-      margin: 25px auto 25px auto;
-    }
-
-    table {
-      border: 2px solid black;
-      margin: auto;
-    }
-
-    th, td {
-      text-align: center;
-      height: 30px;
-      width: 30px;
-      border: 1px solid black;
-    }
-
-    form {
-      width: auto;
-
-    }
-
-    textarea {
-      font-size: 18;
-      letter-spacing: 3px;
-      text-align: left;
-    }
-
-    h1, h2, h3 {
-      font-family: 'Cinzel', Georgia, serif;
-      text-align: center;
-    }
-
-    .start {
-      display: flex;
-    }
-
-    .instruction {
-      display: flex;
-      flex-flow: column;
-      align-items: center;
-    }
-
-    .table_desctription {
-      font-style: italic;
-      font-size: 18;
-      text-align: center;
-      margin-bottom: 2px;
-      margin-top: 35px;
-    }
-
-    .table {
-      display: none;
-    }
-
-
-  </style>
-
-  <h2>Grupowanie wyrobów metodą współczynika podobieństwa</h2>
-  <div class="start">
-    <div class="input">
-      <textarea id="inputMatrix" cols="25" rows="21">
+<main>
+<h2>Grupowanie wyrobów metodą współczynika podobieństwa</h2>
+<div class="start">
+<div class="input">
+<textarea id="inputMatrix" cols="25" rows="21">
 00000001011000011001
 00000111011001000001
 01010010000001100110
@@ -86,31 +31,32 @@
 01010010000000000000
 00000000000010100110
 00000000011000000000</textarea>
-    </div>
+</div>
 
-    <div class="instruction">
-      <h3>Instrukcja</h3>
-      <ol>
-        <li>Macierz wprowadzamy rzędami, każdy rząd w nowej lini.</li>
-        <li>Dopuszczalne wartości to 0 lub 1.
-        <li>Domyślnie jest wprowadzona przykładowa macierz incydencji.</li>
-        <li>Wciskamy przycisk oblicz.</li>
-      </ol>
-      <button class="calculate" type="button" onclick="run();">Oblicz</button>
-    </div>
-  </div>
+<div class="instruction">
+<h3>Instrukcja</h3>
+<ol>
+  <li>Macierz wprowadzamy rzędami, każdy rząd w nowej lini.</li>
+  <li>Dopuszczalne wartości to 0 lub 1.
+  <li>Domyślnie jest wprowadzona przykładowa macierz incydencji.</li>
+  <li>Wciskamy przycisk oblicz.</li>
+</ol>
+<button class="calculate" type="button" onclick="run();">Oblicz</button>
+</div>
+</div>
 
-  <div class="table">
-    <p class="table_desctription">Macierz Incydencji</p>
-    <table id="table_1"></table>
-    <p class="table_desctription">Macierz współczyników podobieństwa</p>
-    <table id="table_2"></table>
-    <p class="table_desctription">Podsumowanie z macierzy współczyników podobieństwa</p>
-    <table id="table_3"></table>
-    <p class="table_desctription">Uporządkowana macierz incydencji</p>
-    <table id="table_4"></table>
-  </div>
-  <script src="matrix-class.js"></script>
-  
+<div class="table">
+<p class="table_desctription">Macierz Incydencji</p>
+<table id="table_1"></table>
+<p class="table_desctription">Macierz współczyników podobieństwa</p>
+<table id="table_2"></table>
+<p class="table_desctription">Podsumowanie z macierzy współczyników podobieństwa</p>
+<table id="table_3"></table>
+<p class="table_desctription">Uporządkowana macierz incydencji</p>
+<table id="table_4"></table>
+</div>
+
+<script src="matrix-class.js"></script>
+</main>
 </body>
 </html>
