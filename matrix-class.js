@@ -294,17 +294,11 @@ function run() {
   tableFromMatrix(ordMat.matrix, "table_4");
 
   colorGroups(ordMat.matrix, ordMat.groups);
+
+  document.getElementsByClassName("table")[0].style.display = "block";
 }
 
-
 function reset() {
-  //let tableArr = Array.from(document.getElementsByTagName("table"));
-//  tableArr.forEach(table => {
-  //  console.log(table);
-  //  while(table.firsChild) {
-  //    table.removeChild(table.firsChild);
-  //  }
-//  });
   let tables = document.getElementsByTagName("table");
   for (let i = 0; i < tables.length; i++) {
     while (tables[i].firstChild) {

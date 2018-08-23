@@ -1,66 +1,64 @@
 <!doctype: html>
 <html>
-<head><meta charset="utf-8">
+<head>
+  <meta charset="utf-8"/>
   <title>Grupowanie stanowisk produkcyjnych</title>
 </head>
 
 <style type="text/css">
-table {
-  border: 2px solid black;
-  margin: auto;
+  body {
+    font-size: 18;
+    width: 800px;
+    text-align: justify;
+    margin: 25px auto 25px auto;
+  }
 
-}
+  table {
+    border: 2px solid black;
+    margin: auto;
+  }
 
-th, td {
-  text-align: center;
-  height: 30px;
-  width: 30px;
-  border: 1px solid black;
-}
+  th, td {
+    text-align: center;
+    height: 30px;
+    width: 30px;
+    border: 1px solid black;
+  }
 
-mi {
-  font-weight: normal;
-}
+  mi {
+    font-weight: normal;
+  }
 
-body {
-  width: 800px;
-  text-align: justify;
-  margin: 25px auto 25px auto;
-}
-
-h1, h2, h3 {
-  font-family: 'Cinzel', Georgia, serif;
-}
-
-
+  div {
+    display: block;
+    margin: auto;
+  }
 </style>
 
 <body>
-  <h1>Problem grupowania stanowisk Produkcyjnych</h1>
-  <p>
-    Przyjmijmy, że produkujemy dziewięć wyrobów: A, B, C,...,I. Każdy wyrób przechodzi
-    określone operacje technologiczne: 1, 2, 3,...,11 np. (cięcie, szlifowanie, spawanie itp.)
-    Powiązania te są przedstawione w poniższej tabeli zwanej <i>Macierzą incydencji</i>.
-  </p>
+
+<h1>Problem grupowania stanowisk Produkcyjnych</h1>
+<p class="description">
+Przyjmijmy, że produkujemy dziewięć wyrobów: A, B, C,...,I. Każdy wyrób przechodzi
+określone operacje technologiczne: 1, 2, 3,...,11 np. (cięcie, szlifowanie, spawanie itp.)
+Powiązania te są przedstawione w poniższej tabeli zwanej <i>Macierzą incydencji</i>.</p>
 
 <table id="table_1"></table>
 
-<h2>Wyroby podobne</h2>
-<p>
-  Jak można zauważyć w powyższej tabeli niektóre wyroby przechodzą te same operacje technologiczne,
-  przykładowo wyroby E i G mają ten sam zestaw operacji: 2, 3, 10. Bez żadnych obliczeń można
-  stwierdzic, że są do siebie podobne. Grupowanie stanowisk polega właśnie na znajdowaniu
-  takich zestawów podobnych wyrobów i tworzenia z nich grup. Jednak nie zawsze podobieństwo
-  jest tak oczywiste. Dlatego do grupowania stosuje się specjalne algorytmy.
-</p>
+<p class="description">
+Jak można zauważyć w powyższej tabeli niektóre wyroby przechodzą te same operacje technologiczne,
+przykładowo wyroby E i G mają ten sam zestaw operacji: 2, 3, 10. Bez żadnych obliczeń można
+stwierdzic, że są do siebie podobne. Grupowanie stanowisk polega właśnie na znajdowaniu
+takich zestawów podobnych wyrobów i tworzenia z nich grup. Jednak nie zawsze podobieństwo
+jest tak oczywiste. Dlatego do grupowania stosuje się specjalne algorytmy.</p>
 
 <h2>Metoda współczynnika podobieństwa</h2>
-<p>
-  Jedną z takich metod jest określenie współczynika dla wszystkich wszystkich par wyrobó.
-  Współczynik podobieństwa defininiuje się następująco:
+<p class="description">
+Jedną z takich metod jest określenie współczynika dla wszystkich wszystkich par wyrobó.
+Współczynik podobieństwa defininiuje się następująco:</p>
 
 <div>
-<math xmlns="http://www.w3.org/1998/Math/MathML">
+<math class="equation">
   <msub>
     <mi>WP</mi>
     <mrow>
@@ -75,44 +73,45 @@ h1, h2, h3 {
   </frac>
 </math>
 </div>
-</p>
+
+
+<p class="description">Zgodnie ze wzorem:</p>
+<ul class="list">
+  <li>wspólene operacje wyrobów A oraz C = 2 (op. 5, 8)</li>
+  <li>wszystkie operacje wyrobów A oraz C = 4 (op. 1, 5, 7, 8)</li>
+</ul>
+
+<math class="equation">
+  <msub>
+    <mi>WP</mi>
+    <mrow>
+      <mi>A</mi>
+      <mi>C</mi>
+    </mrow>
+  </msub>
+  <mo>=</mo>
+  <mfrac>
+    <mn>2</mn>
+    <mn>4</mn>
+  </frac>
+</math>
+
+Wpółczynik podobieństwa należy policzyc dla wszystkich możliwych par wyrobów.
+Wyniki najwygotniej przedstawic w tabeli - <i>macierz współczyników podobieństwa</i>:
+<table id="table_2"></table>
 <p>
-  Zgodnie ze wzorem:<div>wspólene operacje wyrobów A oraz C = 2 (op. 5, 8)</div>
-  <div>wszystkie operacje wyrobów A oraz C = 4 (op. 1, 5, 7, 8)</div>
-<div>
-  <math xmlns="http://www.w3.org/1998/Math/MathML">
-    <msub>
-      <mi>WP</mi>
-      <mrow>
-        <mi>A</mi>
-        <mi>C</mi>
-      </mrow>
-    </msub>
-    <mo>=</mo>
-    <mfrac>
-      <mn>2</mn>
-      <mn>4</mn>
-    </frac>
-  </math>
-</div>
- Wpółczynik podobieństwa należy policzyc dla wszystkich możliwych par wyrobów.
- Wyniki najwygotniej przedstawic w tabeli - <i>macierz współczyników podobieństwa</i>:
- <table id="table_2"></table>
-</p>
-<p>
-  Z macierzy współczyników podobieństwa wyznaczamy:
-  <ol>
-  <li>Wartości maksymalne wsółczyników podobieństwa dla każdej kolumny</li>
-  <li>Wartośc minimalną z wyznaczonych wartości maksymalnych (graniczna wartośc współczynika
-    podobieństwa)</li>
-  <li>Dla każdego wyrobu wyznaczamy liczbę wyrobów do których jest podobny.
-    Uznajemy, że wyroby są do siebie podobne jeżeli ich współczynik podobieństwa jest
-    większy bądz równy od granicznej wartości współczynika podobieństwa</li>
+Z macierzy współczyników podobieństwa wyznaczamy:
+<ol>
+<li>Wartości maksymalne wsółczyników podobieństwa dla każdej kolumny</li>
+<li>Wartośc minimalną z wyznaczonych wartości maksymalnych (graniczna wartośc współczynika
+  podobieństwa)</li>
+<li>Dla każdego wyrobu wyznaczamy liczbę wyrobów do których jest podobny.
+  Uznajemy, że wyroby są do siebie podobne jeżeli ich współczynik podobieństwa jest
+  większy bądz równy od granicznej wartości współczynika podobieństwa</li>
 </ol>
 Po wykonaniu powyższych punktów otrzymujemy tabelę z wynikami:
 <table id="table_3"></table>
 </p>
-</body>
 <h2>Ostatni etap: wydzielenie grup</h2>
 <p>Mając tabele nr 3 możemy dokonac podziały na grupy. Przebiega on według nastepującego algorytmu:</p>
 algorytmu:
@@ -134,7 +133,10 @@ aby efektywnośc produkcji była jak największa.
 <table id="table_4"></table>
 </p>
 
+</body>
 
 
+<script>window.MathJax = { MathML: { extensions: ["mml3.js", "content-mathml.js"]}};</script>
+<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=MML_HTMLorMML"></script>
 <script src="script-do-opisu.js"></script>
 </html>
