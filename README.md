@@ -1,2 +1,2 @@
-# grupowanie-stanowisk
-Algorytmy grupowania stanowisk w JS
+algorytm automatycznie tworzący grupy
+z wyrobów podobnych
