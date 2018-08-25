@@ -1,56 +1,6 @@
 const alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
                   'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
 
-let incidenceMatStr =
-`001100001
-000010100
-000010100
-010001010
-101100001
-000000100
-100100001
-101100001
-010000010
-000010100
-010001010`;
-
-let incidenceMatStr2 =
-`0000110000
-1010000101
-0001001000
-1110000000
-0000000010
-1000100000
-0000010101
-0011001010
-0100000100
-0100110100
-0010000000
-0001000000`;
-
-let t20 =
-`00000001011000011001
-00000111011001000001
-01010010000001100110
-00000101011000011001
-00000101011000011001
-01010010000001000000
-00000000011000011000
-00000100011000011000
-00100010000010000110
-10001000100100000000
-00000101010000000001
-10000000100100000000
-01010010000001000000
-01110010000001100110
-00101010000010100110
-00000000011000010000
-10101000100100000000
-01010010000000000000
-00000000000010100110
-00000000011000000000`;
-
-
 class Matrix {
   constructor(columns, rows) {
   this.rows = rows;
@@ -77,36 +27,35 @@ class Matrix {
   set(column, row, value) {
     this.content[row * this.columns + column] = value;
   }
-}
 
-Matrix.prototype.mirror = function(cornerToMirror) {
-  let mirrorMatrix = new Matrix(this.columns, this.rows);
-  mirrorMatrix.content = this.content;
+  mirror(cornerToMirror) {
+    let mirrorMatrix = new Matrix(this.columns, this.rows);
+    mirrorMatrix.content = this.content;
 
-    for (let i = 0; i < mirrorMatrix.rows; i++) {
-      for (let j = 1; j < mirrorMatrix.columns; j++) {
-        if (cornerToMirror === "bottom-left") {
-          mirrorMatrix.set(j, i, this.get(i, j));
-        }
-        if (cornerToMirror === "top-right") {
-          mirrorMatrix.set(i, j, this.get(j, i));
+      for (let i = 0; i < mirrorMatrix.rows; i++) {
+        for (let j = 1; j < mirrorMatrix.columns; j++) {
+          if (cornerToMirror === "bottom-left") {
+            mirrorMatrix.set(j, i, this.get(i, j));
+          }
+          if (cornerToMirror === "top-right") {
+            mirrorMatrix.set(i, j, this.get(j, i));
+          }
         }
       }
-    }
-  return mirrorMatrix;
-}
-
-Matrix.prototype.copy = function(columns) {
-  let copiedMatrix = new Matrix(columns.length + 1, this.rows);
-
-  for (i = 0; i < columns.length; i++) {
-    for (let j = 0; j < this.rows; j++) {
-      copiedMatrix.set(i + 1, j, this.get(columns[i], j));
-    }
+    return mirrorMatrix;
   }
-  return copiedMatrix;
-}
 
+  copy(columns) {
+    let copiedMatrix = new Matrix(columns.length + 1, this.rows);
+
+    for (let i = 0; i < columns.length; i++) {
+      for (let j = 0; j < this.rows; j++) {
+        copiedMatrix.set(i + 1, j, this.get(columns[i], j));
+      }
+    }
+    return copiedMatrix;
+  }
+}
 
 function matrixFromString(string) {
   let splitedRows = string.split("\n");
@@ -279,11 +228,19 @@ function round(number, numbersAfterDot) {
   return Math.round(number * n) / n;
 }
 
+function reset() {
+  let tables = document.getElementsByTagName("table");
+  for (let i = 0; i < tables.length; i++) {
+    while (tables[i].firstChild) {
+      tables[i].removeChild(tables[i].firstChild);
+    }
+  }
+}
+
 function run() {
 
   reset();
 
-  let incMat = matrixFromString(document.getElementById("inputMatrix").value);
   let connFactMat = connectionFactorMatrix(incMat);
   let minMaxMat = max(connFactMat);
   let ordMat = orderedIncMat(incMat, connFactMat, minMaxMat);
@@ -295,14 +252,7 @@ function run() {
 
   colorGroups(ordMat.matrix, ordMat.groups);
 
-  document.getElementsByClassName("table")[0].style.display = "block";
-}
-
-function reset() {
-  let tables = document.getElementsByTagName("table");
-  for (let i = 0; i < tables.length; i++) {
-    while (tables[i].firstChild) {
-      tables[i].removeChild(tables[i].firstChild);
-    }
+  if (document.getElementsByClassName("table").length) {
+    document.getElementsByClassName("table")[0].style.display = "block";
   }
 }
