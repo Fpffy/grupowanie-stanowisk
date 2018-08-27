@@ -1,2 +1,2 @@
-algorytm automatycznie tworzący grupy
-z wyrobów podobnych
+algorytm automatycznie tworzący grupy wyrobów podobnych na podstawie
+macierzy wejściowej
