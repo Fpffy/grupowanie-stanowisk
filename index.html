@@ -9,8 +9,8 @@
 <main>
 <h1>Problem grupowania stanowisk produkcyjnych</h1>
 <p class="description">
-Przyjmijmy, że produkujemy dziewięć wyrobów: A, B, C,...,I. Każdy wyrób
-przechodzi określone operacje technologiczne: 1, 2, 3,...,11 np.
+Przyjmijmy, że produkujemy dziewięć wyrobów: A, B, C, ..., I. Każdy wyrób
+przechodzi określone operacje technologiczne: 1, 2, 3, ..., 11 np.
 (cięcie, szlifowanie, spawanie itp.) Powiązania te są przedstawione
 w poniższej tabeli zwanej <i>Macierzą incydencji</i>.</p>
 
@@ -27,7 +27,7 @@ algorytmy.</p>
 
 <h2>Metoda współczynnika podobieństwa</h2>
 <p class="description">
-Jedną z takich metod jest określenie współczynika dla wszystkich wszystkich
+Jedną z takich metod jest określenie współczynika podobieństwa dla wszystkich wszystkich
 par wyrobów. Współczynik podobieństwa defininiuje się następująco:</p>
 
 <math>
@@ -67,21 +67,21 @@ par wyrobów. Współczynik podobieństwa defininiuje się następująco:</p>
 </math>
 
 <p class="description">
-Wpółczynik podobieństwa należy policzyc dla wszystkich możliwych
-par wyrobów. Wyniki najwygotniej przedstawic w tabeli
+Wpółczynik podobieństwa należy policzyć dla wszystkich możliwych
+par wyrobów. Wyniki najwygodniej przedstawić w tabeli
  - <i>macierz współczyników podobieństwa</i>:</p>
 
 <table id="table_2"></table>
 
 <p class="description">Z macierzy współczyników podobieństwa wyznaczamy:</p>
 <ol class="list">
-  <li>Wartości maksymalne wsółczyników podobieństwa dla każdej kolumny</li>
+  <li>Wartości maksymalne współczyników podobieństwa dla każdej kolumny.</li>
   <li>Wartośc minimalną z wyznaczonych wartości maksymalnych
-    (graniczna wartośc współczynika podobieństwa)</li>
+    (graniczna wartość współczynika podobieństwa).</li>
   <li>Dla każdego wyrobu wyznaczamy liczbę wyrobów do których jest podobny.
     Uznajemy, że wyroby są do siebie podobne jeżeli ich współczynik
     podobieństwa jest większy bądz równy od granicznej wartości współczynika
-    podobieństwa</li>
+    podobieństwa.</li>
 </ol>
 
 <p class="description">
@@ -89,22 +89,22 @@ Po wykonaniu powyższych punktów otrzymujemy tabelę z wynikami:</p>
 
 <table id="table_3"></table>
 
-<h2>Ostatni etap: wydzielenie grup</h2>
-<p>Mając tabele nr 3 możemy dokonac podziały na grupy. Przebiega on według
-  nastepującego algorytmu:</p>
+<h2>Wydzielenie grup</h2>
+<p>Mając tabelę nr 3 możemy dokonać podziału na grupy. Przebiega on według
+  następującego algorytmu:</p>
 
 <ol class="list">
   <li>Wybieramy wyrób wiodący, czyli taki, który jest podobny do największej
     ilości wyrobów. Wyroby D i I mają najwięcej (3). Arbitralnie wybieramy
     wyrób D jako wyrób wiodący - tworzy on pierwszą grupę.</li>
   <li>Następnie do wyrobu wiodącego dobieramy najbardziej podobny wyrób
-     - będzie to wyrób I (WP<sub>DI</sub> = 1)</li>
+     - będzie to wyrób I (WP<sub>DI</sub> = 1).</li>
   <li>Powyższą czynnośc powtarzamy aż z pozostałych wyrobów nie znajdziemy
     wyrobów podobnych do wyrobu widącego. Wtedy kończymy dobieranie i mamy
     pierwszą grupę.</li>
   <li>Powracamy do punktu 2 i z nieprzydzielonych wyrobów wybieramy nowy wyrób
     wiodący, który utworzy następną grupe.</li>
-  <li>Algorytm powtarzamy aż wszystkie wyroby zostaną przydzielone do grup</li>
+  <li>Algorytm powtarzamy aż wszystkie wyroby zostaną przydzielone do grup.</li>
 </ol>
 <p class="description">
 W wyniku grupowania otrzymujemy <i>uporządkowaną macierz incydencji</i>. Wydzielone grupy

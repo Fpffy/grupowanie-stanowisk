@@ -1,6 +1,8 @@
 const alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
                   'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
 
+
+// pusta macierz o określonej liczbie wierszy i kolumn
 class Matrix {
   constructor(columns, rows) {
   this.rows = rows;
@@ -10,11 +12,12 @@ class Matrix {
   for (let i = 0; i < this.rows * this.columns; i++) {
     this.content.push(undefined);
   }
-
+    // nazwy kolumn A, B, C, ...
     for (let i = 1; i < this.columns; i++) {
       this.set(i, 0, alphabet[i - 1]);
     }
 
+    // numery wierszy 1, 2, 3, ...
     for (let i = 1; i <= this.rows; i++) {
       this.set(0, i, i);
     }
@@ -28,6 +31,7 @@ class Matrix {
     this.content[row * this.columns + column] = value;
   }
 
+  // tworzy lustrzane odbicie symetrycznej macierzy wzdłuż diagonali
   mirror(cornerToMirror) {
     let mirrorMatrix = new Matrix(this.columns, this.rows);
     mirrorMatrix.content = this.content;
@@ -45,6 +49,7 @@ class Matrix {
     return mirrorMatrix;
   }
 
+  // kopiuje określone kolumny do nowej macierzy columns to array
   copy(columns) {
     let copiedMatrix = new Matrix(columns.length + 1, this.rows);
 
@@ -57,6 +62,7 @@ class Matrix {
   }
 }
 
+// tworzy macierz z stringa, w którym wiersze są oddzielone enterem
 function matrixFromString(string) {
   let splitedRows = string.split("\n");
   let matrix = new Matrix(splitedRows[0].length + 1, splitedRows.length + 1);
@@ -71,6 +77,8 @@ function matrixFromString(string) {
   return matrix;
 }
 
+// dla każdej pary wyrobów oblicza ich współczynnik podobieństwa,
+// wynik zwraca w postaci symetrycznej macierzy współczyników
 function connectionFactorMatrix(incidenceMatrix) {
   let connFactMat = new Matrix(incidenceMatrix.columns, incidenceMatrix.columns);
 
@@ -93,6 +101,103 @@ function connectionFactorMatrix(incidenceMatrix) {
   return(connFactMat.mirror("top-right"));
 }
 
+// podsumowanie macierzy współczyników
+function max(matrix) {
+  let minMaxMat = new Matrix(matrix.columns, 4);
+
+  // z każdej kolumny wybiera wartośc maksymalną
+  for (let i = 1; i < matrix.columns; i++) {
+    let max = 0;
+    for (let j = 0; j < matrix.rows; j++) {
+      if (matrix.get(i, j) > max) max = matrix.get(i, j);
+    }
+    minMaxMat.set(i, 1, max);
+  }
+
+  // ze wszystkich wartości maksymalnych wybiera najmniejszą
+  let minFromMax = 1;
+  for (let i = 1; i < minMaxMat.columns; i++) {
+    if (minMaxMat.get(i, 1) < minFromMax) minFromMax = minMaxMat.get(i, 1);
+  }
+  minMaxMat.set(1, 2, "min");
+  minMaxMat.set(2, 2, minFromMax);
+
+  // sprawdza ile wartości w danej kolumnie jest większa bądź równa
+  // wartości minimalnej
+  for (let i = 1; i < matrix.columns; i++) {
+    let moreOrEqualToMax = 0;
+    for (let j = 1; j < matrix.rows; j++) {
+      if (matrix.get(i, j) >= minFromMax) moreOrEqualToMax++;
+    }
+    minMaxMat.set(i, 3, moreOrEqualToMax);
+  }
+  return minMaxMat;
+}
+
+// wydziela grupy złożone z wyrobów podobnych
+function orderedIncMat(incMat, connFactMat, minMaxMat) {
+  let orderedMat = new Matrix(incMat.columns, incMat.rows);
+  let min = minMaxMat.get(2, 2);
+  let groups = [];
+  let currentGroup = -1;
+  let order = [];
+  let columnsLeft = [];
+  for (let i = 1; i < incMat.columns; i++) {
+    columnsLeft.push(i);
+  }
+
+  // wybiera wyrób wiodący
+  function choseLeading(minMaxMat) {
+    if (columnsLeft[0]) {
+      let leadingProductCol = 0;
+      let leadingProductValue = 0;
+
+      for (let column of columnsLeft) {
+        if (minMaxMat.get(column, 3) > leadingProductValue) {
+          leadingProductCol = column;
+          leadingProductValue = minMaxMat.get(column, 3);
+        }
+      }
+
+      columnsLeft = columnsLeft.filter(column => {
+        return column !== leadingProductCol;
+      })
+      currentGroup++;
+      groups.push([leadingProductCol]);
+      order.push(leadingProductCol);
+      addSimilarToLeading(min, connFactMat);
+    }
+  }
+
+  choseLeading(minMaxMat);
+
+  // wybiera wyroby najbardziej podobne do obecnego wyrobu wiodącego
+  // jeśli takich nie ma to to uruchami choseLeading(), aby wybrac nowy
+  function addSimilarToLeading(min, connFactMat) {
+    let maxConnFactCol = false;
+    for (let column of columnsLeft) {
+      if (connFactMat.get(groups[groups.length -1][0], column) >= min) {
+        maxConnFact = connFactMat.get(groups[groups.length -1][0], column);
+        maxConnFactCol = column;
+      }
+    }
+    columnsLeft = columnsLeft.filter(column => {
+      return column !== maxConnFactCol;
+    });
+
+    if (maxConnFactCol) {
+      order.push(maxConnFactCol);
+      groups[currentGroup].push(maxConnFactCol);
+      addSimilarToLeading(min, connFactMat);
+    } else choseLeading(minMaxMat);
+
+  }
+  // zwraca object z properties matrix: uporządkowana macierz
+  // groups: wydzielone grupy w postaci arraya: np. [[x y z], [a, b], [i, j, k]]
+  return {matrix: incMat.copy(order), groups: groups};
+}
+
+// na podstawie macirzy tworzy tabele
 function tableFromMatrix(matrix, tableId) {
   let headingRow = document.createElement("tr");
   document.getElementById(tableId).appendChild(headingRow);
@@ -120,91 +225,7 @@ function tableFromMatrix(matrix, tableId) {
   }
 }
 
-function max(matrix) {
-  let minMaxMat = new Matrix(matrix.columns, 4);
-
-  for (let i = 1; i < matrix.columns; i++) {
-    let max = 0;
-    for (let j = 0; j < matrix.rows; j++) {
-      if (matrix.get(i, j) > max) max = matrix.get(i, j);
-    }
-    minMaxMat.set(i, 1, max);
-  }
-
-  let minFromMax = 1;
-  for (let i = 1; i < minMaxMat.columns; i++) {
-    if (minMaxMat.get(i, 1) < minFromMax) minFromMax = minMaxMat.get(i, 1);
-  }
-  minMaxMat.set(1, 2, "min");
-  minMaxMat.set(2, 2, minFromMax);
-
-  for (let i = 1; i < matrix.columns; i++) {
-    let moreOrEqualToMax = 0;
-    for (let j = 1; j < matrix.rows; j++) {
-      if (matrix.get(i, j) >= minFromMax) moreOrEqualToMax++;
-    }
-    minMaxMat.set(i, 3, moreOrEqualToMax);
-  }
-  return minMaxMat;
-}
-
-function orderedIncMat(incMat, connFactMat, minMaxMat) {
-  let orderedMat = new Matrix(incMat.columns, incMat.rows);
-  let min = minMaxMat.get(2, 2);
-  let groups = [];
-  let currentGroup = -1;
-  let order = [];
-  let columnsLeft = [];
-  for (let i = 1; i < incMat.columns; i++) {
-    columnsLeft.push(i);
-  }
-
-  function choseLeading(minMaxMat) {
-    if (columnsLeft[0]) {
-      let leadingProductCol = 0;
-      let leadingProductValue = 0;
-
-      for (let column of columnsLeft) {
-        if (minMaxMat.get(column, 3) > leadingProductValue) {
-          leadingProductCol = column;
-          leadingProductValue = minMaxMat.get(column, 3);
-        }
-      }
-
-      columnsLeft = columnsLeft.filter(column => {
-        return column !== leadingProductCol;
-      })
-      currentGroup++;
-      groups.push([leadingProductCol]);
-      order.push(leadingProductCol);
-      addSimilarToLeading(min, connFactMat);
-    }
-  }
-
-  choseLeading(minMaxMat);
-
-  function addSimilarToLeading(min, connFactMat) {
-    let maxConnFactCol = false;
-    for (let column of columnsLeft) {
-      if (connFactMat.get(groups[groups.length -1][0], column) >= min) {
-        maxConnFact = connFactMat.get(groups[groups.length -1][0], column);
-        maxConnFactCol = column;
-      }
-    }
-    columnsLeft = columnsLeft.filter(column => {
-      return column !== maxConnFactCol;
-    });
-
-    if (maxConnFactCol) {
-      order.push(maxConnFactCol);
-      groups[currentGroup].push(maxConnFactCol);
-      addSimilarToLeading(min, connFactMat);
-    } else choseLeading(minMaxMat);
-
-  }
-  return {matrix: incMat.copy(order), groups: groups};
-}
-
+// grupy wyrobów podobnych mają różne kolory tła tabeli wybierane losowo
 function colorGroups(orderedIncMat, groups) {
   let huesArr = [];
   for (let hue = 0; hue < 360; hue += 45) huesArr.push(`hsl(${hue}, 100%, 70%)`);
@@ -241,7 +262,7 @@ function run() {
 
   reset();
 
-  incMat = matrixFromString(document.getElementById("inputMatrix").value);
+  let incMat = matrixFromString(document.getElementById("inputMatrix").value);
   let connFactMat = connectionFactorMatrix(incMat);
   let minMaxMat = max(connFactMat);
   let ordMat = orderedIncMat(incMat, connFactMat, minMaxMat);
