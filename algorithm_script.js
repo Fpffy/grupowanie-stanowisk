@@ -241,6 +241,7 @@ function run() {
 
   reset();
 
+  incMat = matrixFromString(document.getElementById("inputMatrix").value);
   let connFactMat = connectionFactorMatrix(incMat);
   let minMaxMat = max(connFactMat);
   let ordMat = orderedIncMat(incMat, connFactMat, minMaxMat);
@@ -252,7 +253,5 @@ function run() {
 
   colorGroups(ordMat.matrix, ordMat.groups);
 
-  if (document.getElementsByClassName("table").length) {
-    document.getElementsByClassName("table")[0].style.display = "block";
-  }
+  document.getElementsByClassName("table")[0].style.display = "block";
 }

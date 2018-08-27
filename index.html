@@ -133,7 +133,16 @@ let exampleMatrix =
 000010100
 010001010`;
 let incMat = matrixFromString(exampleMatrix);
-run();
+let connFactMat = connectionFactorMatrix(incMat);
+let minMaxMat = max(connFactMat);
+let ordMat = orderedIncMat(incMat, connFactMat, minMaxMat);
+
+tableFromMatrix(incMat, "table_1");
+tableFromMatrix(connFactMat, "table_2");
+tableFromMatrix(minMaxMat, "table_3");
+tableFromMatrix(ordMat.matrix, "table_4");
+
+colorGroups(ordMat.matrix, ordMat.groups);
 </script>
 <script  src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
 </body>
