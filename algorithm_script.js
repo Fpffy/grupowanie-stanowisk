@@ -207,7 +207,7 @@ function orderedIncMat(incMat, connFactMat, minMaxMat) {
 
 function colorGroups(orderedIncMat, groups) {
   let huesArr = [];
-  for (let hue = 0; hue <= 360; hue += 45) huesArr.push(`hsl(${hue}, 100%, 70%)`);
+  for (let hue = 0; hue < 360; hue += 45) huesArr.push(`hsl(${hue}, 100%, 70%)`);
 
   let start = 1;
   groups.forEach(group => {
