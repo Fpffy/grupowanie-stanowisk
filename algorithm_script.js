@@ -70,7 +70,6 @@ function testInput(rows) {
   let matWidth = rows[0].length;
   let status = true;
   rows.forEach(row => {
-    console.log(row.length);
     if (row.length !== matWidth) {
       status = "Każdy wiersz powinien mieć taką samą liczbę kolumn!";
     }
