@@ -63,3 +63,7 @@ li {
   .table {
     display: none;
   }
+
+  #errorMessage {
+    color: red;
+  }

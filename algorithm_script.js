@@ -1,3 +1,5 @@
+"use strict";
+
 const alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
                   'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
 
@@ -62,9 +64,29 @@ class Matrix {
   }
 }
 
+class InputError extends Error {};
+
+function testInput(rows) {
+  let matWidth = rows[0].length;
+  let status = true;
+  rows.forEach(row => {
+    if (row.length !== matWidth) {
+      status = "Każdy wiersz powinien mieć taką samą liczbę kolumn!";
+    }
+    if (/[^01]/.test(row)) {
+      status = "Dopuszczalne wartości w macierzy to 0 lub 1!";
+    }
+  });
+  if (status !== true) {
+    throw new InputError(status);
+  }
+}
+
+
 // tworzy macierz z stringa, w którym wiersze są oddzielone enterem
 function matrixFromString(string) {
   let splitedRows = string.split("\n");
+  if (testInput(splitedRows) instanceof Error) return testInput(splitedRows);
   let matrix = new Matrix(splitedRows[0].length + 1, splitedRows.length + 1);
 
   let rowNum = 1;
@@ -177,7 +199,6 @@ function orderedIncMat(incMat, connFactMat, minMaxMat) {
     let maxConnFactCol = false;
     for (let column of columnsLeft) {
       if (connFactMat.get(groups[groups.length -1][0], column) >= min) {
-        maxConnFact = connFactMat.get(groups[groups.length -1][0], column);
         maxConnFactCol = column;
       }
     }
@@ -259,20 +280,33 @@ function reset() {
 }
 
 function run() {
-
   reset();
 
-  let incMat = matrixFromString(document.getElementById("inputMatrix").value);
-  let connFactMat = connectionFactorMatrix(incMat);
-  let minMaxMat = max(connFactMat);
-  let ordMat = orderedIncMat(incMat, connFactMat, minMaxMat);
+  let err = document.getElementById("errorMessage");
 
-  tableFromMatrix(incMat, "table_1");
-  tableFromMatrix(connFactMat, "table_2");
-  tableFromMatrix(minMaxMat, "table_3");
-  tableFromMatrix(ordMat.matrix, "table_4");
+  try {
+    let err = document.getElementById("errorMessage");
+    let incMat = matrixFromString(document.getElementById("inputMatrix").value);
+    let connFactMat = connectionFactorMatrix(incMat);
+    let minMaxMat = max(connFactMat);
+    let ordMat = orderedIncMat(incMat, connFactMat, minMaxMat);
 
-  colorGroups(ordMat.matrix, ordMat.groups);
 
-  document.getElementsByClassName("table")[0].style.display = "block";
+    tableFromMatrix(incMat, "table_1");
+    tableFromMatrix(connFactMat, "table_2");
+    tableFromMatrix(minMaxMat, "table_3");
+    tableFromMatrix(ordMat.matrix, "table_4");
+
+    colorGroups(ordMat.matrix, ordMat.groups);
+    err.textContent = "";
+    document.getElementsByClassName("table")[0].style.display = "block";
+  } catch (e) {
+    if (e instanceof InputError) {
+      err.textContent = "InputError: " + e.message;
+      console.log(e);
+    } else {
+      err.textContent = "Error: coś poszło nie tak!"
+      console.log(e);
+    }
+  }
 }
