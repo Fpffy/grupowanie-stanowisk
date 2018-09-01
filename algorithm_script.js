@@ -76,7 +76,7 @@ function testInput(rows) {
     if (/[^01]/.test(row)) {
       status = "Dopuszczalne wartości w macierzy to 0 lub 1!";
     }
-    if (!row.length) {status = "Brak danych";}
+    if (row.length < 2) {status = "Brak danych";}
   });
   if (status !== true) {
     throw new InputError(status);
