@@ -70,12 +70,14 @@ function testInput(rows) {
   let matWidth = rows[0].length;
   let status = true;
   rows.forEach(row => {
+    console.log(row.length);
     if (row.length !== matWidth) {
       status = "Każdy wiersz powinien mieć taką samą liczbę kolumn!";
     }
     if (/[^01]/.test(row)) {
       status = "Dopuszczalne wartości w macierzy to 0 lub 1!";
     }
+    if (!row.length) {status = "Brak danych";}
   });
   if (status !== true) {
     throw new InputError(status);
