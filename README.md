@@ -1,2 +1,4 @@
-algorytm automatycznie tworzący grupy wyrobów podobnych na podstawie
-macierzy wejściowej
+# Grupowanie stanowisk metodą współczynnika podobieństwa
+
+* Opis:
+https://fpffy.github.io/grupowanie_stanowisk/index.html
